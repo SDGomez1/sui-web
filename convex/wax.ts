@@ -13,13 +13,6 @@ export const listWax = query({
   },
 });
 
-export const updateCostPerGram = mutation({
-  args: { waxId: v.id("wax"), pricePerGram: v.number() },
-  handler: async (ctx, args) => {
-    await ctx.db.patch(args.waxId, { costPerGram: args.pricePerGram });
-  },
-});
-
 export const addNewWax = mutation({
   args: {
     type: v.string(),
@@ -28,6 +21,7 @@ export const addNewWax = mutation({
     date: v.string(),
   },
   handler: async (ctx, args) => {
+    const costPerGram = args.price / args.weight;
     const newEntry = await ctx.db.insert("wax", {
       type: args.type,
       price: args.price,

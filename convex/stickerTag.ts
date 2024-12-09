@@ -5,17 +5,10 @@ export const listStickerTag = query({
   args: { paginationOpts: paginationOptsValidator },
   handler: async (ctx, args) => {
     const stickerTagList = await ctx.db
-      .query("wax")
+      .query("stickerTag")
       .order("desc")
       .paginate(args.paginationOpts);
     return stickerTagList;
-  },
-});
-
-export const updateCostPerGram = mutation({
-  args: { waxId: v.id("stickerTag"), constPerUnit: v.number() },
-  handler: async (ctx, args) => {
-    await ctx.db.patch(args.waxId, { constPerUnit: args.constPerUnit });
   },
 });
 

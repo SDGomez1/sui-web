@@ -12,14 +12,6 @@ export const listDye = query({
   },
 });
 
-export const updateCostPerJarAndCostPerDrop = mutation({
-  args: { dyeId: v.id("dye"), costPerJar: v.number(), costPerDrop: v.number() },
-  handler: async (ctx, args) => {
-    await ctx.db.patch(args.dyeId, { costPerJar: args.costPerJar });
-    await ctx.db.patch(args.dyeId, { costPerDrop: args.costPerDrop });
-  },
-});
-
 export const addNewDye = mutation({
   args: {
     quantity: v.number(),
