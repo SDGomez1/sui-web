@@ -21,7 +21,6 @@ export const addNewWax = mutation({
     date: v.string(),
   },
   handler: async (ctx, args) => {
-    const costPerGram = args.price / args.weight;
     const newEntry = await ctx.db.insert("wax", {
       type: args.type,
       price: args.price,

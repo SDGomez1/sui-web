@@ -5,15 +5,27 @@ import {
   STICKERTAGINPUTS,
   WAXINPUTS,
 } from "@/lib/constants";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useDebounce } from "./useDebounce";
 
 export type inputType = "wax" | "fragance" | "jar" | "stickerTag" | "dye";
 
+export interface csvDataResponse {
+  headers: string[];
+  content: string[][];
+}
+
+const defaultValue = {
+  headers: [],
+  content: [[]],
+};
 export function useReadCsv({ fieldType }: { fieldType: inputType }) {
   const [files, setFiles] = useState<FileList | null>(null);
-
+  const [response, setResponse] = useState<csvDataResponse>(defaultValue);
+  const debouncedFile = useDebounce(files, 1000);
   const readFile = useCallback(async () => {
     if (!files) {
+      setResponse(defaultValue);
       return;
     }
 
@@ -24,26 +36,32 @@ export function useReadCsv({ fieldType }: { fieldType: inputType }) {
     const rows: string[] = text.split("\n");
     const headerRows = rows.slice(0, 1);
     const contentRows = rows.slice(1);
-    const { scheme, isValid } = matchSchemeInput(fieldType, headerRows);
-    console.log(scheme);
-    console.log(isValid);
-  }, [files]);
+    const { scheme } = matchSchemeInput(fieldType, headerRows);
+    if (scheme.length <= 0) {
+      setResponse(defaultValue);
+      return;
+    }
+    const content = formatData(contentRows);
 
-  readFile();
+    setResponse({ headers: scheme, content });
+  }, [debouncedFile]);
+
+  useEffect(() => {
+    readFile();
+  }, [debouncedFile]);
   return {
     setFiles,
+    response,
   };
 }
 
 function matchSchemeInput(inputType: inputType, data: string[]) {
   interface returnValues {
     scheme: string[];
-    isValid: boolean;
   }
-
+  let isValid = false;
   let values: returnValues = {
     scheme: [],
-    isValid: false,
   };
 
   const contentColumns = data[0].split(",");
@@ -75,13 +93,30 @@ function matchSchemeInput(inputType: inputType, data: string[]) {
     return values;
   }
   for (let index = 0; index < values.scheme.length; index++) {
-    if (!data[index]) {
+    if (!contentColumns[index]) {
       break;
     }
-    values.isValid =
+    isValid =
       values.scheme[index].replaceAll(" ", "").toLowerCase() ===
       contentColumns[index].replaceAll(" ", "").toLowerCase();
   }
-
+  if (!isValid) {
+    values.scheme = [];
+  }
   return values;
+}
+
+function formatData(data: string[]) {
+  let values: string[][] = [[]];
+  for (let j = 0; j < data.length; j++) {
+    const columns = data[j].split(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/g);
+    values[j] = [];
+    for (let k = 0; k < columns.length; k++) {
+      if (columns[k] === "" || columns[k] === " ") {
+        break;
+      }
+      values[j][k] = columns[k];
+    }
+  }
+  return values.filter((arr) => arr.length > 0);
 }
