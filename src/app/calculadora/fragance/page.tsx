@@ -1,6 +1,5 @@
 import Navbar from "@/components/navigation/Navbar";
 import FraganceInputs from "@/components/tables/FraganceInputs";
-import FraganceDialog from "@/components/dialogs/FraganceDialog";
 import NewFraganceEntry from "@/components/newTableEntry/NewFraganceEntry";
 
 export default function Page() {

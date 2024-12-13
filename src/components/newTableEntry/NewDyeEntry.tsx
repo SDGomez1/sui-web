@@ -14,18 +14,18 @@ import { Button } from "../ui/button";
 import { csvDataResponse } from "@/hooks/useReadCsv";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import WaxDialog from "../dialogs/WaxDialog";
-import WaxInputs from "../tables/WaxInputs";
+import DyeDialog from "../dialogs/DyeDialog";
+import DyeInputs from "../tables/DyeInputs";
 
-export default function NewWaxEntry() {
+export default function NewDyeEntry() {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState<csvDataResponse | undefined>();
 
-  const sendToDB = useMutation(api.wax.addNewWax);
+  const sendToDB = useMutation(api.dye.addNewDye);
   return (
     <div className="flex gap-10 w-full justify-center items-center">
-      <WaxDialog />
-      <FileReadingInput fieldType="wax" setOpen={setIsOpen} setData={setData} />
+      <DyeDialog />
+      <FileReadingInput fieldType="dye" setOpen={setIsOpen} setData={setData} />
       <Dialog open={isOpen} onOpenChange={() => {}}>
         <DialogContent>
           <DialogHeader>
@@ -37,7 +37,7 @@ export default function NewWaxEntry() {
               cargar
             </DialogDescription>
           </DialogHeader>
-          <WaxInputs data={data} handleData />
+          <DyeInputs data={data} handleData />
           <DialogFooter>
             <Button
               onClick={() => {
@@ -52,10 +52,11 @@ export default function NewWaxEntry() {
               onClick={() => {
                 data?.content.forEach((column) => {
                   sendToDB({
-                    type: column[0],
+                    quantity: Number(column[0].replaceAll(/[^\d.]/g, "")),
                     price: Number(column[1].replaceAll(/[^\d.]/g, "")),
                     weight: Number(column[2].replaceAll(/[^\d.]/g, "")),
-                    date: column[3],
+                    dropQuantity: Number(column[3].replaceAll(/[^\d.]/g, "")),
+                    date: column[4],
                   });
                 });
                 setIsOpen(false);

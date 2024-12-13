@@ -12,10 +12,10 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { csvDataResponse } from "@/hooks/useReadCsv";
-import WaxInputs from "../tables/WaxInputs";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import FraganceDialog from "../dialogs/FraganceDialog";
+import FraganceInputs from "../tables/FraganceInputs";
 
 export default function NewFraganceEntry() {
   const [isOpen, setIsOpen] = useState(false);
@@ -41,7 +41,7 @@ export default function NewFraganceEntry() {
               cargar
             </DialogDescription>
           </DialogHeader>
-          <WaxInputs data={data} handleData />
+          <FraganceInputs data={data} handleData />
           <DialogFooter>
             <Button
               onClick={() => {

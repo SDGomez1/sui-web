@@ -31,7 +31,6 @@ export function useReadCsv({ fieldType }: { fieldType: inputType }) {
 
     const file: File = files[0];
     let text = await file.text();
-    console.log(text);
     text = text.replaceAll(/\r|\t/g, "");
     const rows: string[] = text.split("\n");
     const headerRows = rows.slice(0, 1);

@@ -14,18 +14,18 @@ import { Button } from "../ui/button";
 import { csvDataResponse } from "@/hooks/useReadCsv";
 import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
-import WaxDialog from "../dialogs/WaxDialog";
-import WaxInputs from "../tables/WaxInputs";
+import JarInputs from "../tables/JarInputs";
+import JarDialog from "../dialogs/JarDialog";
 
-export default function NewWaxEntry() {
+export default function NewJarEntry() {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState<csvDataResponse | undefined>();
 
-  const sendToDB = useMutation(api.wax.addNewWax);
+  const sendToDB = useMutation(api.jar.addNewJar);
   return (
     <div className="flex gap-10 w-full justify-center items-center">
-      <WaxDialog />
-      <FileReadingInput fieldType="wax" setOpen={setIsOpen} setData={setData} />
+      <JarDialog />
+      <FileReadingInput fieldType="jar" setOpen={setIsOpen} setData={setData} />
       <Dialog open={isOpen} onOpenChange={() => {}}>
         <DialogContent>
           <DialogHeader>
@@ -37,7 +37,7 @@ export default function NewWaxEntry() {
               cargar
             </DialogDescription>
           </DialogHeader>
-          <WaxInputs data={data} handleData />
+          <JarInputs data={data} handleData />
           <DialogFooter>
             <Button
               onClick={() => {
@@ -54,7 +54,7 @@ export default function NewWaxEntry() {
                   sendToDB({
                     type: column[0],
                     price: Number(column[1].replaceAll(/[^\d.]/g, "")),
-                    weight: Number(column[2].replaceAll(/[^\d.]/g, "")),
+                    quantity: Number(column[2].replaceAll(/[^\d.]/g, "")),
                     date: column[3],
                   });
                 });

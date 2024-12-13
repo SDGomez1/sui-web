@@ -1,5 +1,5 @@
-import JarDialog from "@/components/dialogs/JarDialog";
 import Navbar from "@/components/navigation/Navbar";
+import NewJarEntry from "@/components/newTableEntry/NewJarEntry";
 import JarInputs from "@/components/tables/JarInputs";
 
 export default function Page() {
@@ -8,7 +8,7 @@ export default function Page() {
       <Navbar />
       <section className="flex justify-center items-center px-28 flex-col gap-4">
         <JarInputs />
-        <JarDialog />
+        <NewJarEntry />
       </section>
     </main>
   );

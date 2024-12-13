@@ -1,5 +1,6 @@
 import StickerTagDialog from "@/components/dialogs/StickerTagDialog";
 import Navbar from "@/components/navigation/Navbar";
+import NewStickerTagEntry from "@/components/newTableEntry/NewStickerTagEntry";
 import StickerTagInputs from "@/components/tables/StickerTagInputs";
 
 export default function Page() {
@@ -8,7 +9,7 @@ export default function Page() {
       <Navbar />
       <section className="flex justify-center items-center px-28 flex-col gap-4">
         <StickerTagInputs />
-        <StickerTagDialog />
+        <NewStickerTagEntry />
       </section>
     </main>
   );

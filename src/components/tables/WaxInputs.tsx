@@ -33,6 +33,9 @@ export default function WaxInputs({
   });
 
   let rows = results.map((data) => {
+    if (!data) {
+      return null;
+    }
     return (
       <TableRow key={data._id}>
         <TableCell>{data.type}</TableCell>
@@ -60,7 +63,7 @@ export default function WaxInputs({
     }
     rows = data.content.map((rows, index) => {
       if (index > 4) {
-        return <></>;
+        return null;
       }
       const columns = rows.map((column) => {
         return <TableCell key={crypto.randomUUID()}>{column}</TableCell>;
