@@ -22,15 +22,15 @@ export const FRAGANCEINPUTS = [
   "Costo por gramo (cop)",
 ];
 
-export const DYEINPUTS = [
-  "Cantidad",
-  "Precio (cop)",
-  "Peso por tarro (g)",
-  "Cantidad de gotas",
-  "Fecha",
-  "Costo por tarro (cop)",
-  "Costo por gota (cop)",
-];
+export interface DYEINPUTS  {
+  "Cantidad": number|string ,
+  "Precio(cop)": number|string,
+  "Peso por tarro (g)": number|string,
+  "Cantidad de gotas": number|string,
+  "Fecha":string ,
+  "Costo por tarro (cop)": number|string,
+  "Costo por gota (cop)": number|string,
+};
 
 export const STICKERTAGINPUTS = [
   "Tipo",
